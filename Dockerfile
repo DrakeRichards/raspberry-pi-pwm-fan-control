@@ -1,4 +1,4 @@
-FROM fedora:36-armhfp
+FROM fedora:36
 
 RUN  dnf -y update
 RUN  dnf -y install libgpiod-utils python3-libgpiod swig python2 python-setuptools python-devel python3-devel python-setuptools python3-setuptools unzip curl wget make gcc which git
@@ -15,7 +15,9 @@ RUN  if [[ -d "/usr/lib" ]];   then cp /usr/local/lib/lib*gpio.so.1 /usr/lib/;  
 
 RUN  mkdir /src
 
-COPY fan.py /src
+COPY fan_hardware_pwm.py /src
+
+RUN pip3 install rpi-hardware-pwm
 
 RUN  mkdir -p /var/lib/node_exporter; \
      touch /var/lib/node_exporter/fan-metrics.prom
