@@ -15,7 +15,7 @@ import sys, getopt
 # Configuration
 PWM_CHANNEL = 0        # PWM channel used to drive PWM fan (gpio18 = channel 0)
 WAIT_TIME = 1           # [s] Time to wait between each refresh
-PWM_FREQ = 25000        # [Hz] 10kHz for Noctua PWM control
+PWM_FREQ = 25000        # [Hz] 25kHz for Noctua PWM control
 
 # Configurable temperature and fan speed
 MIN_TEMP = 40
