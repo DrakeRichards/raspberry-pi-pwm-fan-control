@@ -1,0 +1,13 @@
+services:
+  fan_control:
+    build: .
+    privileged: true
+    container_name: fan_control_service
+    restart: always
+    volumes:
+      - .:/usr/src/app
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"

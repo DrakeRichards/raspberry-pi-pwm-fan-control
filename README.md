@@ -237,6 +237,8 @@ import gpiod
 
 ## Hardware PWM Using `rpi_hardware_pwm`
 
+Since `lgpio` does not support hardware PWM, you can instead use `rpi_hardware_pwm` to control the fan using hardware PWM. This will reduce the CPU load significantly.
+
 ### Hardware Setup
 
 1. Connect a 5V PWM fan to the GPIO pins:
@@ -249,61 +251,24 @@ import gpiod
 
 1. If you have a 4-wire fan, just leave the fourth wire disconnected.
 
-### Systemd Installation
-
-Since `lgpio` is no longer maintained, it may be necessary to use the library `rpi_hardware_pwm` to control the fan using hardware PWM.
+### Container Setup
 
 1. Enable PWM chanels in `/boot/config.txt` using the steps from [rpi_hardware_pwm](https://github.com/Pioreactor/rpi_hardware_pwm).
 1. Clone this repo locally.
 
    ```bash
    git clone git@github.com:DrakeRichards/raspberry-pi-pwm-fan-control.git
-   cd raspberry-pi-pwm-fan-control
+   cd raspberry-pi-pwm-fan-control/hardware_pwm
    ```
 
-1. Create a virtual environment and activate it:
+1. Build the container image.
 
    ```bash
-   sudo python -m venv venv
-   venv/bin/activate
+   docker compose build
    ```
 
-1. Install the required libraries:
+1. Start the container.
 
    ```bash
-   pip install -r requirements.txt
-   ```
-
-1. Create a system-level directory for the script:
-
-   ```bash
-   sudo mkdir /usr/local/bin/fan_control
-   ```
-
-1. Copy the script and venv to the system directory:
-
-   ```bash
-   cp fan_control_hardware_pwm.py /usr/local/bin/fan_control
-   cp venv /usr/local/bin/fan_control
-   ```
-
-1. Allow executing the script and change the owner to root:
-
-   ```bash
-   sudo chmod +x /usr/local/bin/fan_control/fan_control_hardware_pwm.py
-   sudo chown -R root:root /usr/local/bin/fan_control
-   ```
-
-1. Copy the service file:
-
-   ```bash
-   sudo cp ~/raspberry-pi-pwm-fan-control/fan_control_hardware_pwm.service /etc/systemd/system/fan_control_hardware_pwm.service
-   sudo chown root:root /etc/systemd/system/fan_control_hardware_pwm.service
-   ```
-
-1. Enable and start the service:
-
-   ```bash
-   sudo systemctl enable fan_control_hardware_pwm.service
-   sudo systemctl start fan_control_hardware_pwm.service
+   docker compose up -d
    ```
